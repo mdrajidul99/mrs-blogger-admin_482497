@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MRS Engineers BD - Apps Admin (Strict Bilingual & Google Auth)</title>
+  
+  <!-- PWA Manifest & App Icons (PWABuilder-এর জন্য যুক্ত করা হয়েছে) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0066ff">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/mdrajidul99/mrs-engineers-assets/main/MRS%20Engineers%20BD%20Logo.png">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mdrajidul99/mrs-engineers-assets/main/MRS%20Engineers%20BD%20Logo.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -531,7 +538,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE AUTH & DASHBOARD ENGINE (POPUP + REDIRECT FALLBACK FOR HOPWEB) -->
+  <!-- FIREBASE AUTH & DASHBOARD ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -670,12 +677,12 @@
     // STRICT USER VERIFICATION
     function isUserAuthorized(user) {
       if (!user) return false;
-      const userEmail = (user.email || '').toLowerCase();
-      const targetEmail = AUTHORIZED_ADMIN_EMAIL.toLowerCase();
+      const userEmail = (user.email || '').toLowerCase().trim();
+      const targetEmail = AUTHORIZED_ADMIN_EMAIL.toLowerCase().trim();
       return userEmail === targetEmail || user.uid === AUTHORIZED_ADMIN_UID;
     }
 
-    // CHECK REDIRECT RESULT (FOR WEBVIEW & HOPWEB)
+    // CHECK REDIRECT RESULT
     getRedirectResult(auth).then(async (result) => {
       if (result && result.user) {
         if (!isUserAuthorized(result.user)) {
@@ -687,18 +694,16 @@
       console.warn("Redirect check: ", err);
     });
 
-    // GOOGLE SIGN-IN HANDLER (POPUP WITH AUTO-REDIRECT FALLBACK)
+    // GOOGLE SIGN-IN HANDLER
     btnGoogleLogin.addEventListener('click', async () => {
       btnGoogleLogin.disabled = true;
       try {
-        // Try popup first (works on standard browsers)
         const result = await signInWithPopup(auth, googleProvider);
         if (!isUserAuthorized(result.user)) {
           await signOut(auth);
           showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
         }
       } catch (err) {
-        // If popup is blocked by WebView/HopWeb, execute seamless redirect
         console.warn("Popup blocked or failed, switching to redirect mode...", err);
         try {
           await signInWithRedirect(auth, googleProvider);
@@ -968,6 +973,15 @@
       } catch (err) {
         showAlert(dashAlert, "ডিলিট করতে সমস্যা হয়েছে: " + err.message, true);
       }
+    }
+  </script>
+
+  <!-- Service Worker Registration for PWA/APK -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch((err) => console.log('SW Reg Fail:', err));
+      });
     }
   </script>
 </body>
