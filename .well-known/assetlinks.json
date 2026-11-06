@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.mrsengbd.web.control",
+        "sha256_cert_fingerprints": ["C5:89:0D:10:53:F9:C9:2B:3D:77:67:C1:B6:1B:35:1D:D3:74:AD:6D:2B:9A:1A:B8:A9:31:A7:9F:E1:7D:CD:8E"]
+      }
+    }]
