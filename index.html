@@ -515,25 +515,53 @@
         <div id="empty-en" class="hidden" style="text-align:center; padding:35px; color:var(--text-muted);">No English apps found.</div>
       </section>
 
-      <!-- 3. REVIEWS & FEEDBACK TAB -->
+      <!-- 3. REVIEWS & FEEDBACK TAB (SEPARATED INTO SUB-TABS) -->
       <section id="tab-reviews" class="dash-section">
         <div class="section-header-row">
-          <h3 class="section-title">⭐ ব্যবহারকারীদের দেওয়া অ্যাপ রিভিউ ও রেটিং</h3>
+          <h3 class="section-title">⭐ রিভিউ ও মতামত ব্যবস্থাপনা</h3>
         </div>
-        <div class="custom-table-wrapper">
-          <table class="custom-table">
-            <thead>
-              <tr>
-                <th>অ্যাপের নাম</th>
-                <th>ব্যবহারকারী</th>
-                <th>রেটিং</th>
-                <th>মন্তব্য / ফিডব্যাক</th>
-                <th>তারিখ</th>
-                <th>অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody id="reviews-table-body"></tbody>
-          </table>
+
+        <!-- Sub Tabs Controller -->
+        <div class="form-tabs" style="margin-bottom: 18px;">
+          <button type="button" class="tab-btn active" id="subtab-btn-app-reviews" onclick="switchReviewSubTab('app')">📱 অ্যাপ রিভিউসমূহ</button>
+          <button type="button" class="tab-btn" id="subtab-btn-site-feedback" onclick="switchReviewSubTab('site')">🌐 ওয়েবসাইট ফিডব্যাক</button>
+        </div>
+
+        <!-- Sub Panel 1: App Specific Reviews -->
+        <div id="panel-app-reviews">
+          <div class="custom-table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>অ্যাপের নাম</th>
+                  <th>ব্যবহারকারী</th>
+                  <th>রেটিং</th>
+                  <th>মন্তব্য / রিভিউ</th>
+                  <th>তারিখ</th>
+                  <th>অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="app-reviews-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub Panel 2: Website Feedback -->
+        <div id="panel-site-feedback" class="hidden">
+          <div class="custom-table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>ব্যবহারকারী</th>
+                  <th>রেটিং</th>
+                  <th>ওয়েবসাইট সম্পর্কে মতামত ও পরামর্শ</th>
+                  <th>তারিখ</th>
+                  <th>অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="site-feedback-table-body"></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -803,6 +831,15 @@
       document.getElementById('panel-en').classList.toggle('hidden', lang !== 'en');
     };
 
+    // Sub-tab switch between App Reviews and Website Feedback
+    window.switchReviewSubTab = function(type) {
+      const isApp = type === 'app';
+      document.getElementById('subtab-btn-app-reviews').classList.toggle('active', isApp);
+      document.getElementById('subtab-btn-site-feedback').classList.toggle('active', !isApp);
+      document.getElementById('panel-app-reviews').classList.toggle('hidden', !isApp);
+      document.getElementById('panel-site-feedback').classList.toggle('hidden', isApp);
+    };
+
     function isUserAuthorized(user) {
       if (!user) return false;
       const userEmail = (user.email || '').toLowerCase().trim();
@@ -1015,6 +1052,19 @@
       }
     });
 
+    // Helper: Identify whether a record is a general website feedback
+    function isWebsiteFeedbackRecord(r) {
+      const name = (r.appName || '').toLowerCase().trim();
+      const appId = (r.appId || '').toLowerCase().trim();
+      const type = (r.type || '').toLowerCase().trim();
+      return name === 'website_general' || 
+             appId === 'website_general' || 
+             type === 'website_general' || 
+             type === 'website' || 
+             name.includes('website_general') || 
+             r.isWebsiteFeedback === true;
+    }
+
     // 2. REVIEWS & FEEDBACK MANAGEMENT
     async function fetchReviews() {
       try {
@@ -1031,28 +1081,58 @@
     }
 
     function renderReviewsTable() {
-      const tbody = document.getElementById('reviews-table-body');
-      tbody.innerHTML = '';
+      const appTbody = document.getElementById('app-reviews-table-body');
+      const siteTbody = document.getElementById('site-feedback-table-body');
+      if (!appTbody || !siteTbody) return;
+
+      appTbody.innerHTML = '';
+      siteTbody.innerHTML = '';
+
       const activeReviews = allReviews.filter(r => r.status !== 'trash');
-      if (activeReviews.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">এখনো কোনো রিভিউ জমা পড়েনি।</td></tr>`;
-        return;
+      
+      const appReviewsList = activeReviews.filter(r => !isWebsiteFeedbackRecord(r));
+      const siteFeedbackList = activeReviews.filter(r => isWebsiteFeedbackRecord(r));
+
+      // 1. Render App Reviews
+      if (appReviewsList.length === 0) {
+        appTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:24px;">এখনো কোনো অ্যাপের রিভিউ জমা পড়েনি।</td></tr>`;
+      } else {
+        appReviewsList.forEach(r => {
+          const tr = document.createElement('tr');
+          const stars = '★'.repeat(r.rating || 5);
+          tr.innerHTML = `
+            <td><strong>${r.appName || 'App Review'}</strong></td>
+            <td>${r.userName || 'Anonymous'}<br><span style="font-size:11px; color:var(--text-muted);">${r.userEmail || ''}</span></td>
+            <td style="color:var(--star-gold); font-size:16px;">${stars}</td>
+            <td>${r.comment || '<em>(শুধু রেটিং দিয়েছেন)</em>'}</td>
+            <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
+            <td>
+              <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Review by ${r.userName || 'User'} on ${r.appName || 'App'}')">🗑️ ট্র্যাশ</button>
+            </td>
+          `;
+          appTbody.appendChild(tr);
+        });
       }
-      activeReviews.forEach(r => {
-        const tr = document.createElement('tr');
-        const stars = '★'.repeat(r.rating || 5);
-        tr.innerHTML = `
-          <td><strong>${r.appName || 'General'}</strong></td>
-          <td>${r.userName || 'Anonymous'}<br><span style="font-size:11px; color:var(--text-muted);">${r.userEmail || ''}</span></td>
-          <td style="color:var(--star-gold); font-size:16px;">${stars}</td>
-          <td>${r.comment || '<em>(শুধু রেটিং দিয়েছেন)</em>'}</td>
-          <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
-          <td>
-            <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Review by ${r.userName || 'User'}')">🗑️ ট্র্যাশ</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+
+      // 2. Render Website Feedback
+      if (siteFeedbackList.length === 0) {
+        siteTbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:24px;">ওয়েবসাইট সম্পর্কে কোনো ফিডব্যাক এখনো জমা পড়েনি।</td></tr>`;
+      } else {
+        siteFeedbackList.forEach(r => {
+          const tr = document.createElement('tr');
+          const stars = '★'.repeat(r.rating || 5);
+          tr.innerHTML = `
+            <td><strong>${r.userName || 'সাধারণ ভিজিটর'}</strong><br><span style="font-size:11px; color:var(--text-muted);">${r.userEmail || 'ইমেইল নেই'}</span></td>
+            <td style="color:var(--star-gold); font-size:16px;">${stars}</td>
+            <td>${r.comment || '<em>(কোনো মন্তব্য নেই)</em>'}</td>
+            <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
+            <td>
+              <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Website Feedback by ${r.userName || 'Visitor'}')">🗑️ ট্র্যাশ</button>
+            </td>
+          `;
+          siteTbody.appendChild(tr);
+        });
+      }
     }
 
     // 3. SITE SETTINGS CONTROLLER
@@ -1200,7 +1280,15 @@
       const tbody = document.getElementById('trash-table-body');
       tbody.innerHTML = '';
       const trashApps = allApps.filter(a => a.status === 'trash').map(a => ({ type: 'App', id: a.id, name: a.appName_bn || a.appName_en || a.appName, target: 'apps' }));
-      const trashReviews = allReviews.filter(r => r.status === 'trash').map(r => ({ type: 'Review', id: r.id, name: `Review on ${r.appName || 'App'}`, target: 'reviews' }));
+      const trashReviews = allReviews.filter(r => r.status === 'trash').map(r => {
+        const isSite = isWebsiteFeedbackRecord(r);
+        return {
+          type: isSite ? 'Website Feedback' : 'App Review',
+          id: r.id,
+          name: isSite ? `Feedback by ${r.userName || 'Visitor'}` : `Review on ${r.appName || 'App'}`,
+          target: 'reviews'
+        };
+      });
       const trashNotifs = allNotifs.filter(n => n.status === 'trash').map(n => ({ type: 'Notice', id: n.id, name: n.title, target: 'notifications' }));
       const trashUsers = allUsers.filter(u => u.status === 'trash').map(u => ({ type: 'User', id: u.id, name: u.username || u.email, target: 'users' }));
       
