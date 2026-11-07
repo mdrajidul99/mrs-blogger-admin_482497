@@ -29,6 +29,7 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --border-color: #1e293b;
+      --star-gold: #fbbf24;
       --card-radius: 14px;
       --font-family: 'Hind Siliguri', 'Inter', -apple-system, sans-serif;
     }
@@ -139,7 +140,6 @@
 
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-    .input-wrapper { position: relative; }
     .form-control {
       width: 100%;
       padding: 11px 14px;
@@ -185,7 +185,7 @@
     .admin-email-tag { font-size: 12px; color: var(--accent-cyan); background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 6px; }
 
     .dash-container {
-      max-width: 1120px;
+      max-width: 1140px;
       width: 100%;
       margin: 0 auto;
       padding: 24px 16px;
@@ -195,7 +195,7 @@
     /* QUICK STATS */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 14px;
       margin-bottom: 24px;
     }
@@ -207,9 +207,9 @@
       text-align: center;
     }
     .stat-card h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-    .stat-card .val { font-size: 26px; font-weight: 800; color: var(--accent-cyan); }
+    .stat-card .val { font-size: 24px; font-weight: 800; color: var(--accent-cyan); }
 
-    /* SEGMENTED NAVIGATION TABS (HOME CONTROLS) */
+    /* DASHBOARD TABS */
     .dashboard-tabs {
       display: flex;
       gap: 8px;
@@ -314,7 +314,7 @@
     }
     .card-actions-row .btn { flex: 1; min-height: 36px; font-size: 13px; }
 
-    /* TABLES (FOR NOTIFICATIONS, USERS, RECYCLE BIN) */
+    /* TABLES */
     .custom-table-wrapper {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
@@ -416,7 +416,7 @@
 
         <div class="form-group">
           <label for="login-password">পাসওয়ার্ড</label>
-          <div class="input-wrapper">
+          <div style="position:relative;">
             <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
             <button type="button" class="pwd-toggle-btn" id="toggle-pwd-btn">দেখুন</button>
           </div>
@@ -467,6 +467,10 @@
           <div class="val" id="stat-en-apps">0</div>
         </div>
         <div class="stat-card">
+          <h4>⭐ মোট রিভিউ</h4>
+          <div class="val" id="stat-reviews" style="color:var(--star-gold);">0</div>
+        </div>
+        <div class="stat-card">
           <h4>👥 মোট ইউজার</h4>
           <div class="val" id="stat-users">0</div>
         </div>
@@ -484,6 +488,7 @@
       <div class="dashboard-tabs">
         <button class="dash-tab-btn active" onclick="switchMainTab('tab-bn-apps')">🇧🇩 বাংলা অ্যাপস</button>
         <button class="dash-tab-btn" onclick="switchMainTab('tab-en-apps')">🇬🇧 English Apps</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-reviews')">⭐ রিভিউ ও ফিডব্যাক</button>
         <button class="dash-tab-btn" onclick="switchMainTab('tab-site-settings')">⚙️ সাইট সেটিংস</button>
         <button class="dash-tab-btn" onclick="switchMainTab('tab-notifications')">🔔 নোটিফিকেশন হাব</button>
         <button class="dash-tab-btn" onclick="switchMainTab('tab-users')">👥 ইউজার তালিকা</button>
@@ -510,7 +515,29 @@
         <div id="empty-en" class="hidden" style="text-align:center; padding:35px; color:var(--text-muted);">No English apps found.</div>
       </section>
 
-      <!-- 3. SITE SETTINGS TAB -->
+      <!-- 3. REVIEWS & FEEDBACK TAB -->
+      <section id="tab-reviews" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">⭐ ব্যবহারকারীদের দেওয়া অ্যাপ রিভিউ ও রেটিং</h3>
+        </div>
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>অ্যাপের নাম</th>
+                <th>ব্যবহারকারী</th>
+                <th>রেটিং</th>
+                <th>মন্তব্য / ফিডব্যাক</th>
+                <th>তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="reviews-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. SITE SETTINGS TAB -->
       <section id="tab-site-settings" class="dash-section">
         <div class="section-header-row">
           <h3 class="section-title">⚙️ ব্লগার ওয়েবসাইট গ্লোবাল সেটিংস কন্ট্রোলার</h3>
@@ -534,7 +561,7 @@
         </div>
       </section>
 
-      <!-- 4. NOTIFICATIONS TAB -->
+      <!-- 5. NOTIFICATIONS TAB -->
       <section id="tab-notifications" class="dash-section">
         <div class="section-header-row">
           <h3 class="section-title">🔔 নোটিফিকেশন হাব (Announcements & Alerts)</h3>
@@ -555,7 +582,7 @@
         </div>
       </section>
 
-      <!-- 5. USERS TAB -->
+      <!-- 6. USERS TAB -->
       <section id="tab-users" class="dash-section">
         <div class="section-header-row">
           <h3 class="section-title">👥 নিবন্ধিত পাবলিক ইউজার তালিকা</h3>
@@ -576,12 +603,12 @@
         </div>
       </section>
 
-      <!-- 6. RECYCLE BIN TAB -->
+      <!-- 7. RECYCLE BIN TAB -->
       <section id="tab-recycle-bin" class="dash-section">
         <div class="section-header-row">
           <h3 class="section-title">🗑️ সার্বজনীন রিসাইকেল বিন (Trash & Recovery)</h3>
         </div>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">ডিলিট করা যেকোনো আইটেম এখানে জমা থাকে। আপনি চাইলে রিস্টোর 🔄 করতে পারেন অথবা চিরতরে মুছে ফেলতে 🗑️ পারেন।</p>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">ডিলিট করা যেকোনো আইটেম (অ্যাপ, নোটিশ, ইউজার, রিভিউ) এখানে জমা থাকে। আপনি চাইলে রিস্টোর 🔄 করতে পারেন অথবা চিরতরে মুছে ফেলতে 🗑️ পারেন।</p>
         <div class="custom-table-wrapper">
           <table class="custom-table">
             <thead>
@@ -701,10 +728,10 @@
     import { 
       getAuth, 
       signInWithEmailAndPassword, 
-      signInWithPopup,
-      signInWithRedirect,
-      getRedirectResult,
-      GoogleAuthProvider,
+      signInWithPopup, 
+      signInWithRedirect, 
+      getRedirectResult, 
+      GoogleAuthProvider, 
       onAuthStateChanged, 
       signOut, 
       sendPasswordResetEmail 
@@ -714,11 +741,11 @@
       collection, 
       getDocs, 
       addDoc, 
-      setDoc,
+      setDoc, 
       updateDoc, 
       deleteDoc, 
       doc, 
-      getDoc,
+      getDoc, 
       serverTimestamp, 
       query, 
       orderBy 
@@ -744,10 +771,10 @@
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
     let allApps = [];
+    let allReviews = [];
     let allNotifs = [];
     let allUsers = [];
 
-    // DOM References
     const authView = document.getElementById('auth-view');
     const dashboardView = document.getElementById('dashboard-view');
     const authAlert = document.getElementById('auth-alert');
@@ -806,7 +833,7 @@
     getRedirectResult(auth).then(async (result) => {
       if (result && result.user && !isUserAuthorized(result.user)) {
         await signOut(auth);
-        showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
+        showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত!", true);
       }
     }).catch(() => {});
 
@@ -840,9 +867,8 @@
       }
     });
 
-    // MASTER DATA LOADER
     async function loadAllDashboardData() {
-      await Promise.all([fetchApps(), fetchSiteSettings(), fetchNotifications(), fetchUsers()]);
+      await Promise.all([fetchApps(), fetchReviews(), fetchSiteSettings(), fetchNotifications(), fetchUsers()]);
       updateDashboardCounts();
       renderTrashTable();
     }
@@ -904,7 +930,6 @@
       return card;
     }
 
-    // ADD / EDIT APP MODAL LOGIC
     window.openAddModal = function(lang = 'bn') {
       document.getElementById('app-form').reset();
       document.getElementById('form-doc-id').value = '';
@@ -932,9 +957,7 @@
       document.getElementById('app-modal').classList.remove('hidden');
     };
 
-    window.closeAppModal = function() {
-      document.getElementById('app-modal').classList.add('hidden');
-    };
+    window.closeAppModal = () => document.getElementById('app-modal').classList.add('hidden');
 
     document.getElementById('form-logo-url').addEventListener('input', (e) => {
       document.getElementById('form-logo-preview').src = e.target.value.trim() || 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
@@ -978,7 +1001,7 @@
           const target = allApps.find(a => a.id === docId);
           if (target && target.createdAt) payload.createdAt = target.createdAt;
           await updateDoc(doc(db, "apps", docId), payload);
-          showAlert(dashAlert, "অ্যাপ সফলভাবে আপডেট করা হয়েছে!", false);
+          showAlert(dashAlert, "অ্যাপ সফলভাবে আপডেট হয়েছে!", false);
         } else {
           payload.createdAt = serverTimestamp();
           await addDoc(collection(db, "apps"), payload);
@@ -992,7 +1015,47 @@
       }
     });
 
-    // 2. SITE GLOBAL SETTINGS CONTROLLER
+    // 2. REVIEWS & FEEDBACK MANAGEMENT
+    async function fetchReviews() {
+      try {
+        const snap = await getDocs(query(collection(db, "reviews"), orderBy("createdAt", "desc")));
+        allReviews = [];
+        snap.forEach(d => allReviews.push({ id: d.id, ...d.data() }));
+        renderReviewsTable();
+      } catch (e) {
+        const snap = await getDocs(collection(db, "reviews"));
+        allReviews = [];
+        snap.forEach(d => allReviews.push({ id: d.id, ...d.data() }));
+        renderReviewsTable();
+      }
+    }
+
+    function renderReviewsTable() {
+      const tbody = document.getElementById('reviews-table-body');
+      tbody.innerHTML = '';
+      const activeReviews = allReviews.filter(r => r.status !== 'trash');
+      if (activeReviews.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">এখনো কোনো রিভিউ জমা পড়েনি।</td></tr>`;
+        return;
+      }
+      activeReviews.forEach(r => {
+        const tr = document.createElement('tr');
+        const stars = '★'.repeat(r.rating || 5);
+        tr.innerHTML = `
+          <td><strong>${r.appName || 'General'}</strong></td>
+          <td>${r.userName || 'Anonymous'}<br><span style="font-size:11px; color:var(--text-muted);">${r.userEmail || ''}</span></td>
+          <td style="color:var(--star-gold); font-size:16px;">${stars}</td>
+          <td>${r.comment || '<em>(শুধু রেটিং দিয়েছেন)</em>'}</td>
+          <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
+          <td>
+            <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Review by ${r.userName || 'User'}')">🗑️ ট্র্যাশ</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // 3. SITE SETTINGS CONTROLLER
     async function fetchSiteSettings() {
       try {
         const sSnap = await getDoc(doc(db, "site_settings", "config"));
@@ -1021,7 +1084,7 @@
       }
     });
 
-    // 3. NOTIFICATION HUB
+    // 4. NOTIFICATIONS HUB
     async function fetchNotifications() {
       try {
         const snap = await getDocs(query(collection(db, "notifications"), orderBy("createdAt", "desc")));
@@ -1056,13 +1119,8 @@
       });
     }
 
-    window.openNotifModal = function() {
-      document.getElementById('notif-form').reset();
-      document.getElementById('notif-modal').classList.remove('hidden');
-    };
-    window.closeNotifModal = function() {
-      document.getElementById('notif-modal').classList.add('hidden');
-    };
+    window.openNotifModal = () => document.getElementById('notif-modal').classList.remove('hidden');
+    window.closeNotifModal = () => document.getElementById('notif-modal').classList.add('hidden');
 
     document.getElementById('notif-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1083,7 +1141,7 @@
       }
     });
 
-    // 4. USERS DIRECTORY
+    // 5. USERS DIRECTORY
     async function fetchUsers() {
       try {
         const snap = await getDocs(collection(db, "users"));
@@ -1123,11 +1181,12 @@
       await fetchUsers();
     };
 
-    // 5. UNIVERSAL RECYCLE BIN (SOFT DELETE & RESTORE)
+    // 6. UNIVERSAL RECYCLE BIN
     window.moveToTrash = async function(type, id, name) {
       if (!confirm(`আপনি কি "${name}" আইটেমটি রিসাইকেল বিনে সরাতে চান?`)) return;
       try {
         if (type === 'app') await updateDoc(doc(db, "apps", id), { status: 'trash', trashedAt: serverTimestamp() });
+        if (type === 'review') await updateDoc(doc(db, "reviews", id), { status: 'trash', trashedAt: serverTimestamp() });
         if (type === 'notif') await updateDoc(doc(db, "notifications", id), { status: 'trash', trashedAt: serverTimestamp() });
         if (type === 'user') await updateDoc(doc(db, "users", id), { status: 'trash', trashedAt: serverTimestamp() });
         showAlert(dashAlert, `"${name}" সফলভাবে রিসাইকেল বিনে সরানো হয়েছে!`, false);
@@ -1141,10 +1200,11 @@
       const tbody = document.getElementById('trash-table-body');
       tbody.innerHTML = '';
       const trashApps = allApps.filter(a => a.status === 'trash').map(a => ({ type: 'App', id: a.id, name: a.appName_bn || a.appName_en || a.appName, target: 'apps' }));
+      const trashReviews = allReviews.filter(r => r.status === 'trash').map(r => ({ type: 'Review', id: r.id, name: `Review on ${r.appName || 'App'}`, target: 'reviews' }));
       const trashNotifs = allNotifs.filter(n => n.status === 'trash').map(n => ({ type: 'Notice', id: n.id, name: n.title, target: 'notifications' }));
       const trashUsers = allUsers.filter(u => u.status === 'trash').map(u => ({ type: 'User', id: u.id, name: u.username || u.email, target: 'users' }));
       
-      const allTrash = [...trashApps, ...trashNotifs, ...trashUsers];
+      const allTrash = [...trashApps, ...trashReviews, ...trashNotifs, ...trashUsers];
       document.getElementById('stat-trash').textContent = allTrash.length;
 
       if (allTrash.length === 0) {
@@ -1169,12 +1229,12 @@
 
     window.restoreTrash = async function(targetCollection, id) {
       await updateDoc(doc(db, targetCollection, id), { status: 'active' });
-      showAlert(dashAlert, "আইটেমটি সফলভাবে আগের স্থানে রিস্টোর করা হয়েছে!", false);
+      showAlert(dashAlert, "আইটেমটি রিস্টোর করা হয়েছে!", false);
       await loadAllDashboardData();
     };
 
     window.permanentDelete = async function(targetCollection, id) {
-      if (!confirm("সতর্কতা: এই আইটেমটি ক্লাউড ডেটাবেজ থেকে চিরতরে মুছে যাবে। আপনি কি নিশ্চিত?")) return;
+      if (!confirm("সতর্কতা: এই আইটেমটি ডেটাবেজ থেকে চিরতরে মুছে যাবে। আপনি কি নিশ্চিত?")) return;
       await deleteDoc(doc(db, targetCollection, id));
       showAlert(dashAlert, "আইটেমটি স্থায়ীভাবে ডিলিট করা হয়েছে!", false);
       await loadAllDashboardData();
@@ -1184,6 +1244,7 @@
       const activeApps = allApps.filter(a => a.status !== 'trash');
       document.getElementById('stat-bn-apps').textContent = activeApps.filter(a => (a.appName_bn && a.appName_bn.trim() !== '') || (!a.appName_en && a.appName)).length;
       document.getElementById('stat-en-apps').textContent = activeApps.filter(a => a.appName_en && a.appName_en.trim() !== '').length;
+      document.getElementById('stat-reviews').textContent = allReviews.filter(r => r.status !== 'trash').length;
       document.getElementById('stat-users').textContent = allUsers.filter(u => u.status !== 'trash').length;
       document.getElementById('stat-notifs').textContent = allNotifs.filter(n => n.status !== 'trash').length;
     }
