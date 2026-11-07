@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MRS Engineers BD - Apps Admin (Strict Bilingual & Google Auth)</title>
+  <title>MRS Engineers BD - Apps Admin Master Control</title>
   
-  <!-- PWA Manifest & App Icons (PWABuilder-এর জন্য যুক্ত করা হয়েছে) -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0066ff">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/mdrajidul99/mrs-engineers-assets/main/MRS%20Engineers%20BD%20Logo.png">
@@ -52,7 +51,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 10px 20px;
+      padding: 10px 18px;
       font-size: 14px;
       font-weight: 600;
       border-radius: 8px;
@@ -60,7 +59,7 @@
       border: none;
       font-family: inherit;
       transition: all 0.2s ease;
-      min-height: 44px;
+      min-height: 42px;
     }
     .btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .btn-primary { background: var(--accent-blue); color: #fff; }
@@ -69,6 +68,8 @@
     .btn-secondary:hover:not(:disabled) { background: #233554; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
+    .btn-warning { background: var(--warning); color: #000; font-weight: 700; }
+    .btn-success { background: var(--success); color: #fff; }
 
     .btn-google {
       background: #ffffff;
@@ -82,7 +83,7 @@
     .google-icon-svg { width: 18px; height: 18px; }
 
     .brand-logo {
-      max-height: 55px;
+      max-height: 52px;
       width: auto;
       object-fit: contain;
       display: block;
@@ -100,7 +101,7 @@
     .alert-banner.error { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: #fca5a5; }
     .alert-banner.success { background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success); color: #6ee7b7; }
 
-    /* AUTH */
+    /* AUTH VIEW */
     #auth-view {
       display: flex;
       align-items: center;
@@ -141,7 +142,7 @@
     .input-wrapper { position: relative; }
     .form-control {
       width: 100%;
-      padding: 12px 14px;
+      padding: 11px 14px;
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: 8px;
@@ -170,7 +171,7 @@
     .top-navbar {
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border-color);
-      padding: 14px 24px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -178,48 +179,89 @@
       top: 0;
       z-index: 100;
     }
-    .navbar-brand { display: flex; align-items: center; gap: 14px; }
-    .navbar-brand img { max-height: 38px; width: auto; }
-    .navbar-brand h2 { font-size: 17px; color: var(--text-main); font-weight: 700; }
+    .navbar-brand { display: flex; align-items: center; gap: 12px; }
+    .navbar-brand img { max-height: 36px; width: auto; }
+    .navbar-brand h2 { font-size: 16px; color: var(--text-main); font-weight: 700; }
     .admin-email-tag { font-size: 12px; color: var(--accent-cyan); background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 6px; }
 
     .dash-container {
-      max-width: 1100px;
+      max-width: 1120px;
       width: 100%;
       margin: 0 auto;
-      padding: 28px 20px;
+      padding: 24px 16px;
       flex: 1;
     }
 
-    .stats-card-row {
+    /* QUICK STATS */
+    .stats-grid {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--card-radius);
-      padding: 20px 24px;
-      margin-bottom: 24px;
+      padding: 16px;
+      text-align: center;
     }
-    .stats-info h3 { font-size: 14px; color: var(--text-muted); font-weight: 500; }
-    .stats-info .count { font-size: 32px; font-weight: 700; color: var(--accent-cyan); }
+    .stat-card h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+    .stat-card .val { font-size: 26px; font-weight: 800; color: var(--accent-cyan); }
 
-    .search-filter-box { margin-bottom: 24px; }
+    /* SEGMENTED NAVIGATION TABS (HOME CONTROLS) */
+    .dashboard-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .dash-tab-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .dash-tab-btn.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+    }
 
+    /* SECTION CONTAINERS */
+    .dash-section { display: none; }
+    .dash-section.active { display: block; }
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+
+    /* APP CARDS LIST */
     .app-cards-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
+      gap: 18px;
     }
     .admin-app-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--card-radius);
-      padding: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      position: relative;
     }
     .app-header-area {
       display: flex;
@@ -228,8 +270,8 @@
       margin-bottom: 12px;
     }
     .app-icon-img {
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       border-radius: 10px;
       object-fit: cover;
       background: var(--bg-input);
@@ -245,40 +287,52 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .app-badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
     .badge-pill {
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 4px;
       font-weight: 600;
+      display: inline-block;
+      margin-top: 4px;
     }
     .badge-cat { background: var(--bg-input); color: var(--accent-cyan); border: 1px solid var(--border-color); }
-    .badge-status-bilingual { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid var(--success); }
-    .badge-status-bn-only { background: rgba(56, 189, 248, 0.15); color: #7dd3fc; border: 1px solid var(--accent-cyan); }
-    .badge-status-en-only { background: rgba(245, 158, 11, 0.15); color: #fcd34d; border: 1px solid var(--warning); }
-
     .app-bilingual-preview {
       font-size: 13px;
       color: var(--text-muted);
       line-height: 1.5;
       margin: 10px 0 16px;
       flex: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
       background: var(--bg-input);
       padding: 10px;
       border-radius: 6px;
     }
-
     .card-actions-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       border-top: 1px solid var(--border-color);
       padding-top: 14px;
     }
-    .card-actions-row .btn { flex: 1; min-height: 38px; font-size: 13px; }
+    .card-actions-row .btn { flex: 1; min-height: 36px; font-size: 13px; }
+
+    /* TABLES (FOR NOTIFICATIONS, USERS, RECYCLE BIN) */
+    .custom-table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      overflow-x: auto;
+    }
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+    .custom-table th, .custom-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .custom-table th { background: var(--bg-input); color: var(--text-muted); font-weight: 600; }
+    .custom-table tr:last-child td { border-bottom: none; }
 
     /* MODAL */
     .modal-backdrop {
@@ -300,7 +354,7 @@
       max-width: 620px;
       max-height: 92vh;
       overflow-y: auto;
-      padding: 26px;
+      padding: 24px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     }
     .modal-header {
@@ -312,59 +366,17 @@
       padding-bottom: 12px;
     }
     .modal-header h3 { font-size: 18px; color: var(--text-main); }
-    .close-modal-btn {
-      background: none;
-      border: none;
-      font-size: 22px;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
+    .close-modal-btn { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; }
 
-    .form-tabs {
-      display: flex;
-      gap: 8px;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 18px;
-    }
+    .form-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-color); margin-bottom: 18px; }
     .tab-btn {
-      background: none;
-      border: none;
-      padding: 8px 16px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      font-family: inherit;
+      background: none; border: none; padding: 8px 16px; font-size: 14px; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-family: inherit;
     }
-    .tab-btn.active {
-      color: var(--accent-cyan);
-      border-bottom-color: var(--accent-cyan);
-    }
-
-    .preview-container {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .preview-thumbnail {
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      object-fit: cover;
-      background: var(--bg-input);
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 24px;
-      border-top: 1px solid var(--border-color);
-      padding-top: 16px;
-    }
+    .tab-btn.active { color: var(--accent-cyan); border-bottom-color: var(--accent-cyan); }
+    .preview-container { margin-top: 8px; display: flex; align-items: center; gap: 12px; }
+    .preview-thumbnail { width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-color); object-fit: cover; background: var(--bg-input); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px; }
   </style>
 </head>
 <body>
@@ -375,7 +387,7 @@
       <div class="auth-header">
         <img src="https://raw.githubusercontent.com/mdrajidul99/mrs-engineers-assets/main/MRS%20Engineers%20BD%20Logo.png" alt="Logo" class="brand-logo">
         <h1>MRS Engineers BD</h1>
-        <p>Apps Manager Admin Panel</p>
+        <p>Master Admin Control Panel</p>
       </div>
 
       <div id="auth-alert" class="alert-banner hidden"></div>
@@ -435,7 +447,7 @@
     <nav class="top-navbar">
       <div class="navbar-brand">
         <img src="https://raw.githubusercontent.com/mdrajidul99/mrs-engineers-assets/main/MRS%20Engineers%20BD%20Logo.png" alt="Logo">
-        <h2>Apps Manager</h2>
+        <h2>Master Admin Panel</h2>
         <span class="admin-email-tag" id="display-admin-email">mrs.engineers.bd26@gmail.com</span>
       </div>
       <button type="button" id="btn-logout" class="btn btn-secondary">লগআউট</button>
@@ -444,32 +456,155 @@
     <main class="dash-container">
       <div id="dash-alert" class="alert-banner hidden"></div>
 
-      <div class="stats-card-row">
-        <div class="stats-info">
-          <h3>সর্বমোট প্রকাশিত অ্যাপস</h3>
-          <div class="count" id="apps-count-display">0</div>
+      <!-- QUICK STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>🇧🇩 বাংলা অ্যাপস</h4>
+          <div class="val" id="stat-bn-apps">0</div>
         </div>
-        <button type="button" id="btn-open-add-modal" class="btn btn-primary">+ নতুন অ্যাপ যোগ করুন</button>
+        <div class="stat-card">
+          <h4>🇬🇧 English Apps</h4>
+          <div class="val" id="stat-en-apps">0</div>
+        </div>
+        <div class="stat-card">
+          <h4>👥 মোট ইউজার</h4>
+          <div class="val" id="stat-users">0</div>
+        </div>
+        <div class="stat-card">
+          <h4>🔔 নোটিফিকেশন</h4>
+          <div class="val" id="stat-notifs">0</div>
+        </div>
+        <div class="stat-card">
+          <h4>🗑️ রিসাইকেল বিন</h4>
+          <div class="val" id="stat-trash" style="color:var(--danger);">0</div>
+        </div>
       </div>
 
-      <div class="search-filter-box">
-        <input type="text" id="admin-search-input" class="form-control" placeholder="অ্যাপের নাম (বাংলা/English) বা ক্যাটাগরি দিয়ে সার্চ করুন...">
+      <!-- SEGMENTED DASHBOARD TABS -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab-btn active" onclick="switchMainTab('tab-bn-apps')">🇧🇩 বাংলা অ্যাপস</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-en-apps')">🇬🇧 English Apps</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-site-settings')">⚙️ সাইট সেটিংস</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-notifications')">🔔 নোটিফিকেশন হাব</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-users')">👥 ইউজার তালিকা</button>
+        <button class="dash-tab-btn" onclick="switchMainTab('tab-recycle-bin')">🗑️ রিসাইকেল বিন</button>
       </div>
 
-      <div class="app-cards-list" id="admin-apps-list"></div>
-      
-      <div id="empty-state" class="hidden" style="text-align: center; padding: 40px; color: var(--text-muted);">
-        কোনো অ্যাপ পাওয়া যায়নি।
-      </div>
+      <!-- 1. BENGALI APPS TAB -->
+      <section id="tab-bn-apps" class="dash-section active">
+        <div class="section-header-row">
+          <h3 class="section-title">🇧🇩 সক্রিয় বাংলা অ্যাপ তালিকা</h3>
+          <button type="button" class="btn btn-primary" onclick="openAddModal('bn')">+ নতুন বাংলা অ্যাপ</button>
+        </div>
+        <div class="app-cards-list" id="list-bn-apps"></div>
+        <div id="empty-bn" class="hidden" style="text-align:center; padding:35px; color:var(--text-muted);">কোনো বাংলা অ্যাপ নেই।</div>
+      </section>
+
+      <!-- 2. ENGLISH APPS TAB -->
+      <section id="tab-en-apps" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">🇬🇧 Active English Applications</h3>
+          <button type="button" class="btn btn-primary" onclick="openAddModal('en')">+ Add English App</button>
+        </div>
+        <div class="app-cards-list" id="list-en-apps"></div>
+        <div id="empty-en" class="hidden" style="text-align:center; padding:35px; color:var(--text-muted);">No English apps found.</div>
+      </section>
+
+      <!-- 3. SITE SETTINGS TAB -->
+      <section id="tab-site-settings" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">⚙️ ব্লগার ওয়েবসাইট গ্লোবাল সেটিংস কন্ট্রোলার</h3>
+        </div>
+        <div style="background:var(--bg-surface); padding:24px; border-radius:var(--card-radius); border:1px solid var(--border-color); max-width:680px;">
+          <form id="site-settings-form">
+            <div class="form-group">
+              <label for="set-logo-url">ওয়েবসাইট লোগো ইমেজ URL</label>
+              <input type="url" id="set-logo-url" class="form-control" placeholder="https://domain.com/logo.png">
+            </div>
+            <div class="form-group">
+              <label for="set-banner-notice">হোমপেজ জরুরি ঘোষণা / নোটিশ ব্যানার (ঐচ্ছিক)</label>
+              <textarea id="set-banner-notice" class="form-control" rows="2" placeholder="ওয়েবসাইটের শীর্ষে লাল/নীল নোটিশ ব্যানারে যা দেখাবে..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="set-footer-notice">ফুটার ডিসক্লেইমার বা কপিরাইট নোটিশ</label>
+              <input type="text" id="set-footer-notice" class="form-control" placeholder="সতর্কতা: শুধুমাত্র বৈধ APK ডাউনলোড করুন...">
+            </div>
+            <button type="submit" id="btn-save-settings" class="btn btn-primary">সেটিংস সংরক্ষণ করুন</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 4. NOTIFICATIONS TAB -->
+      <section id="tab-notifications" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">🔔 নোটিফিকেশন হাব (Announcements & Alerts)</h3>
+          <button type="button" class="btn btn-primary" onclick="openNotifModal()">+ নতুন নোটিফিকেশন পাঠান</button>
+        </div>
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>শিরোনাম</th>
+                <th>বিবরণ</th>
+                <th>তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="notifs-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. USERS TAB -->
+      <section id="tab-users" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">👥 নিবন্ধিত পাবলিক ইউজার তালিকা</h3>
+        </div>
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ইউজারনেম</th>
+                <th>ইমেইল</th>
+                <th>যুক্ত হওয়ার তারিখ</th>
+                <th>স্ট্যাটাস</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6. RECYCLE BIN TAB -->
+      <section id="tab-recycle-bin" class="dash-section">
+        <div class="section-header-row">
+          <h3 class="section-title">🗑️ সার্বজনীন রিসাইকেল বিন (Trash & Recovery)</h3>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">ডিলিট করা যেকোনো আইটেম এখানে জমা থাকে। আপনি চাইলে রিস্টোর 🔄 করতে পারেন অথবা চিরতরে মুছে ফেলতে 🗑️ পারেন।</p>
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ধরণ (Type)</th>
+                <th>নাম / শিরোনাম</th>
+                <th>ডিলিটের তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="trash-table-body"></tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </section>
 
-  <!-- MODAL -->
+  <!-- ADD / EDIT APP MODAL -->
   <div id="app-modal" class="modal-backdrop hidden">
     <div class="modal-box">
       <div class="modal-header">
         <h3 id="modal-title">অ্যাপ ব্যবস্থাপনা</h3>
-        <button type="button" class="close-modal-btn" id="btn-close-modal">&times;</button>
+        <button type="button" class="close-modal-btn" onclick="closeAppModal()">&times;</button>
       </div>
 
       <form id="app-form">
@@ -498,7 +633,6 @@
 
         <!-- BENGALI TAB -->
         <div id="panel-bn">
-          <p style="font-size:12px; color:var(--accent-cyan); margin-bottom:10px;">(শুধু বাংলায় প্রদর্শন করাতে চাইলে এই ট্যাবটি পূরণ করুন)</p>
           <div class="form-group">
             <label for="form-name-bn">অ্যাপের নাম (বাংলা)</label>
             <input type="text" id="form-name-bn" class="form-control" placeholder="যেমন: মাল্টিপল ক্যালেন্ডার">
@@ -515,7 +649,6 @@
 
         <!-- ENGLISH TAB -->
         <div id="panel-en" class="hidden">
-          <p style="font-size:12px; color:var(--warning); margin-bottom:10px;">(Fill this tab if you want this app to appear in English mode)</p>
           <div class="form-group">
             <label for="form-name-en">App Name (English)</label>
             <input type="text" id="form-name-en" class="form-control" placeholder="e.g. Multiple Calendar">
@@ -531,14 +664,38 @@
         </div>
 
         <div class="modal-actions">
-          <button type="button" id="btn-cancel-modal" class="btn btn-secondary">বাতিল</button>
+          <button type="button" class="btn btn-secondary" onclick="closeAppModal()">বাতিল</button>
           <button type="submit" id="btn-save-app" class="btn btn-primary">সংরক্ষণ করুন</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- FIREBASE AUTH & DASHBOARD ENGINE -->
+  <!-- NOTIFICATION MODAL -->
+  <div id="notif-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>নতুন নোটিফিকেশন প্রকাশ করুন</h3>
+        <button type="button" class="close-modal-btn" onclick="closeNotifModal()">&times;</button>
+      </div>
+      <form id="notif-form">
+        <div class="form-group">
+          <label for="notif-title">শিরোনাম *</label>
+          <input type="text" id="notif-title" class="form-control" required placeholder="যেমন: নতুন অ্যাপ রিলিজ বা জরুরী নোটিশ">
+        </div>
+        <div class="form-group">
+          <label for="notif-body">বিস্তারিত বার্তা *</label>
+          <textarea id="notif-body" class="form-control" rows="3" required placeholder="ব্যবহারকারীদের জন্য বার্তাটি লিখুন..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeNotifModal()">বাতিল</button>
+          <button type="submit" id="btn-save-notif" class="btn btn-primary">প্রকাশ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: MASTER ADMIN ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -557,9 +714,11 @@
       collection, 
       getDocs, 
       addDoc, 
+      setDoc,
       updateDoc, 
       deleteDoc, 
       doc, 
+      getDoc,
       serverTimestamp, 
       query, 
       orderBy 
@@ -568,13 +727,13 @@
     const firebaseConfig = {
       apiKey: "AIzaSyBjPuMn6j_XodYLPfCnN2qH27Gyej5pSoQ",
       authDomain: "mrs-engineers-bd-apps-admin.firebaseapp.com",
+      databaseURL: "https://mrs-engineers-bd-apps-admin-default-rtdb.firebaseio.com",
       projectId: "mrs-engineers-bd-apps-admin",
       storageBucket: "mrs-engineers-bd-apps-admin.firebasestorage.app",
       messagingSenderId: "1035811364326",
       appId: "1:1035811364326:web:ab905d1c50daac23588a27"
     };
 
-    // STRICT AUTHORIZATION
     const AUTHORIZED_ADMIN_EMAIL = "mrs.engineers.bd26@gmail.com";
     const AUTHORIZED_ADMIN_UID = "1wM0Nbet3EXtqOfA4yfvT6LqmPy1";
 
@@ -584,58 +743,31 @@
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-    let appsData = [];
+    let allApps = [];
+    let allNotifs = [];
+    let allUsers = [];
 
+    // DOM References
     const authView = document.getElementById('auth-view');
     const dashboardView = document.getElementById('dashboard-view');
     const authAlert = document.getElementById('auth-alert');
     const dashAlert = document.getElementById('dash-alert');
-    const loginForm = document.getElementById('login-form');
-    const loginEmailInput = document.getElementById('login-email');
-    const loginPasswordInput = document.getElementById('login-password');
-    const btnLoginSubmit = document.getElementById('btn-login-submit');
-    const btnGoogleLogin = document.getElementById('btn-google-login');
-    const togglePwdBtn = document.getElementById('toggle-pwd-btn');
-    const linkShowForgot = document.getElementById('link-show-forgot');
-    const forgotSection = document.getElementById('forgot-section');
-    const resetEmailInput = document.getElementById('reset-email');
-    const btnSendReset = document.getElementById('btn-send-reset');
-    const btnCancelReset = document.getElementById('btn-cancel-reset');
-    const btnLogout = document.getElementById('btn-logout');
-    const displayAdminEmail = document.getElementById('display-admin-email');
-
-    const appsCountDisplay = document.getElementById('apps-count-display');
-    const adminAppsList = document.getElementById('admin-apps-list');
-    const emptyState = document.getElementById('empty-state');
-    const adminSearchInput = document.getElementById('admin-search-input');
-    const btnOpenAddModal = document.getElementById('btn-open-add-modal');
-
-    const appModal = document.getElementById('app-modal');
-    const appForm = document.getElementById('app-form');
-    const modalTitle = document.getElementById('modal-title');
-    const btnCloseModal = document.getElementById('btn-close-modal');
-    const btnCancelModal = document.getElementById('btn-cancel-modal');
-    const btnSaveApp = document.getElementById('btn-save-app');
-
-    const formDocId = document.getElementById('form-doc-id');
-    const formLogoUrl = document.getElementById('form-logo-url');
-    const formLogoPreview = document.getElementById('form-logo-preview');
-    const formApkUrl = document.getElementById('form-apk-url');
-
-    const formNameBn = document.getElementById('form-name-bn');
-    const formCatBn = document.getElementById('form-cat-bn');
-    const formDescBn = document.getElementById('form-desc-bn');
-
-    const formNameEn = document.getElementById('form-name-en');
-    const formCatEn = document.getElementById('form-cat-en');
-    const formDescEn = document.getElementById('form-desc-en');
 
     function showAlert(targetEl, msg, isError = true) {
       targetEl.textContent = msg;
       targetEl.className = `alert-banner ${isError ? 'error' : 'success'}`;
       targetEl.classList.remove('hidden');
-      setTimeout(() => { targetEl.classList.add('hidden'); }, 6000);
+      setTimeout(() => { targetEl.classList.add('hidden'); }, 5000);
     }
+
+    window.switchMainTab = function(tabId) {
+      document.querySelectorAll('.dash-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.dash-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+      const targetSec = document.getElementById(tabId);
+      if (targetSec) targetSec.classList.add('active');
+    };
 
     window.switchFormTab = function(lang) {
       document.getElementById('tab-btn-bn').classList.toggle('active', lang === 'bn');
@@ -644,280 +776,184 @@
       document.getElementById('panel-en').classList.toggle('hidden', lang !== 'en');
     };
 
-    togglePwdBtn.addEventListener('click', () => {
-      const isPwd = loginPasswordInput.type === 'password';
-      loginPasswordInput.type = isPwd ? 'text' : 'password';
-      togglePwdBtn.textContent = isPwd ? 'লুকান' : 'দেখুন';
-    });
-
-    linkShowForgot.addEventListener('click', () => {
-      forgotSection.classList.toggle('hidden');
-      resetEmailInput.value = loginEmailInput.value.trim() || AUTHORIZED_ADMIN_EMAIL;
-    });
-    btnCancelReset.addEventListener('click', () => forgotSection.classList.add('hidden'));
-
-    btnSendReset.addEventListener('click', async () => {
-      const email = resetEmailInput.value.trim();
-      if (!email) {
-        showAlert(authAlert, "অনুগ্রহ করে অ্যাডমিন ইমেইল লিখুন।", true);
-        return;
-      }
-      btnSendReset.disabled = true;
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showAlert(authAlert, "পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে!", false);
-        forgotSection.classList.add('hidden');
-      } catch (err) {
-        showAlert(authAlert, "ত্রুটি: " + err.message, true);
-      } finally {
-        btnSendReset.disabled = false;
-      }
-    });
-
-    // STRICT USER VERIFICATION
     function isUserAuthorized(user) {
       if (!user) return false;
       const userEmail = (user.email || '').toLowerCase().trim();
-      const targetEmail = AUTHORIZED_ADMIN_EMAIL.toLowerCase().trim();
-      return userEmail === targetEmail || user.uid === AUTHORIZED_ADMIN_UID;
+      return userEmail === AUTHORIZED_ADMIN_EMAIL.toLowerCase().trim() || user.uid === AUTHORIZED_ADMIN_UID;
     }
 
-    // CHECK REDIRECT RESULT
-    getRedirectResult(auth).then(async (result) => {
-      if (result && result.user) {
-        if (!isUserAuthorized(result.user)) {
-          await signOut(auth);
-          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
-        }
+    // Google Sign-in Handler
+    document.getElementById('btn-google-login').addEventListener('click', async () => {
+      if (window.location.protocol === 'file:') {
+        window.location.href = "https://mdrajidul99.github.io/mrs-blogger-admin_482497/";
+        return;
       }
-    }).catch((err) => {
-      console.warn("Redirect check: ", err);
-    });
-
-    // GOOGLE SIGN-IN HANDLER
-    btnGoogleLogin.addEventListener('click', async () => {
-      btnGoogleLogin.disabled = true;
       try {
         const result = await signInWithPopup(auth, googleProvider);
         if (!isUserAuthorized(result.user)) {
           await signOut(auth);
-          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
+          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
         }
       } catch (err) {
-        console.warn("Popup blocked or failed, switching to redirect mode...", err);
         try {
           await signInWithRedirect(auth, googleProvider);
-          return;
-        } catch (redirectErr) {
-          showAlert(authAlert, "গুগল সাইন-ইন সম্পন্ন করা যায়নি: " + redirectErr.message, true);
+        } catch (rErr) {
+          showAlert(authAlert, "গুগল সাইন-ইন এরর: " + rErr.message, true);
         }
-      } finally {
-        btnGoogleLogin.disabled = false;
       }
     });
 
-    // EMAIL & PASSWORD LOGIN
-    loginForm.addEventListener('submit', async (e) => {
+    getRedirectResult(auth).then(async (result) => {
+      if (result && result.user && !isUserAuthorized(result.user)) {
+        await signOut(auth);
+        showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
+      }
+    }).catch(() => {});
+
+    // Email/Password Login
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = loginEmailInput.value.trim();
-      const pwd = loginPasswordInput.value;
-
-      btnLoginSubmit.disabled = true;
-      btnLoginSubmit.textContent = "যাচাই করা হচ্ছে...";
-
+      const email = document.getElementById('login-email').value.trim();
+      const pwd = document.getElementById('login-password').value;
       try {
-        const userCred = await signInWithEmailAndPassword(auth, email, pwd);
-        if (!isUserAuthorized(userCred.user)) {
+        const cred = await signInWithEmailAndPassword(auth, email, pwd);
+        if (!isUserAuthorized(cred.user)) {
           await signOut(auth);
-          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! আপনি এই সিস্টেমের অনুমোদিত অ্যাডমিন নন।", true);
+          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত!", true);
         }
       } catch (err) {
-        showAlert(authAlert, "লগইন ব্যর্থ হয়েছে: ভুল ইমেইল অথবা পাসওয়ার্ড।", true);
-      } finally {
-        btnLoginSubmit.disabled = false;
-        btnLoginSubmit.textContent = "লগইন করুন";
+        showAlert(authAlert, "লগইন ব্যর্থ: ভুল ইমেইল বা পাসওয়ার্ড।", true);
       }
     });
 
-    btnLogout.addEventListener('click', async () => {
-      await signOut(auth);
-    });
+    document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
 
-    // AUTH STATE OBSERVER
     onAuthStateChanged(auth, async (user) => {
       if (user && isUserAuthorized(user)) {
-        displayAdminEmail.textContent = user.email || AUTHORIZED_ADMIN_EMAIL;
+        document.getElementById('display-admin-email').textContent = user.email || AUTHORIZED_ADMIN_EMAIL;
         authView.classList.add('hidden');
         dashboardView.classList.remove('hidden');
-        await fetchApps();
+        await loadAllDashboardData();
       } else {
-        if (user && !isUserAuthorized(user)) {
-          await signOut(auth);
-          showAlert(authAlert, "প্রবেশাধিকার সংরক্ষিত! শুধুমাত্র mrs.engineers.bd26@gmail.com দিয়ে লগইন সম্ভব।", true);
-        }
         dashboardView.classList.add('hidden');
         authView.classList.remove('hidden');
-        appsData = [];
       }
     });
 
-    // FETCH APPS
+    // MASTER DATA LOADER
+    async function loadAllDashboardData() {
+      await Promise.all([fetchApps(), fetchSiteSettings(), fetchNotifications(), fetchUsers()]);
+      updateDashboardCounts();
+      renderTrashTable();
+    }
+
+    // 1. APPS MANAGEMENT
     async function fetchApps() {
       try {
         const q = query(collection(db, "apps"), orderBy("createdAt", "desc"));
         const snap = await getDocs(q);
-        appsData = [];
-        snap.forEach(d => appsData.push({ id: d.id, ...d.data() }));
-        renderApps(appsData);
+        allApps = [];
+        snap.forEach(d => allApps.push({ id: d.id, ...d.data() }));
+        renderAppLists();
       } catch (err) {
-        try {
-          const snap = await getDocs(collection(db, "apps"));
-          appsData = [];
-          snap.forEach(d => appsData.push({ id: d.id, ...d.data() }));
-          renderApps(appsData);
-        } catch (innerErr) {
-          showAlert(dashAlert, "অ্যাপ লিস্ট লোড ব্যর্থ: " + innerErr.message, true);
-        }
+        const snap = await getDocs(collection(db, "apps"));
+        allApps = [];
+        snap.forEach(d => allApps.push({ id: d.id, ...d.data() }));
+        renderAppLists();
       }
     }
 
-    // RENDER APPS LIST
-    function renderApps(list) {
-      adminAppsList.innerHTML = '';
-      appsCountDisplay.textContent = list.length;
+    function renderAppLists() {
+      const bnContainer = document.getElementById('list-bn-apps');
+      const enContainer = document.getElementById('list-en-apps');
+      bnContainer.innerHTML = '';
+      enContainer.innerHTML = '';
 
-      if (list.length === 0) {
-        emptyState.classList.remove('hidden');
-        return;
-      }
-      emptyState.classList.add('hidden');
+      const activeApps = allApps.filter(a => a.status !== 'trash');
+      const bnApps = activeApps.filter(a => (a.appName_bn && a.appName_bn.trim() !== '') || (!a.appName_en && a.appName));
+      const enApps = activeApps.filter(a => a.appName_en && a.appName_en.trim() !== '');
 
-      list.forEach(app => {
-        const card = document.createElement('div');
-        card.className = 'admin-app-card';
+      document.getElementById('empty-bn').classList.toggle('hidden', bnApps.length > 0);
+      document.getElementById('empty-en').classList.toggle('hidden', enApps.length > 0);
 
-        const safeLogo = app.logoUrl || "https://placehold.co/128x128/1a2744/ffffff?text=App";
-        const hasBn = Boolean((app.appName_bn && app.appName_bn.trim() !== '') || (!app.appName_en && app.appName));
-        const hasEn = Boolean(app.appName_en && app.appName_en.trim() !== '');
-
-        const primaryTitle = app.appName_bn || app.appName_en || app.appName || 'শিরোনামহীন অ্যাপ';
-
-        let statusBadge = '';
-        if (hasBn && hasEn) {
-          statusBadge = '<span class="badge-pill badge-status-bilingual">🌐 উভয় ভাষা (Bilingual)</span>';
-        } else if (hasBn && !hasEn) {
-          statusBadge = '<span class="badge-pill badge-status-bn-only">🇧🇩 শুধুমাত্র বাংলা</span>';
-        } else {
-          statusBadge = '<span class="badge-pill badge-status-en-only">🇬🇧 Only English</span>';
-        }
-
-        const catDisplay = app.category_bn || app.category_en || app.category || 'General';
-
-        card.innerHTML = `
-          <div class="app-header-area">
-            <img class="app-icon-img" src="${safeLogo}" alt="Logo" onerror="this.onerror=null;this.src='https://placehold.co/128x128/1a2744/ffffff?text=App';">
-            <div class="app-meta-area">
-              <div class="app-name-text" title="${primaryTitle}">${primaryTitle}</div>
-              <div class="app-badge-row">
-                <span class="badge-pill badge-cat">${catDisplay}</span>
-                ${statusBadge}
-              </div>
-            </div>
-          </div>
-          <div class="app-bilingual-preview">
-            <strong>বাংলা:</strong> ${app.appName_bn || (hasBn ? app.appName : '<em>(নেই)</em>')}<br>
-            <strong>English:</strong> ${app.appName_en || '<em>(Not added)</em>'}
-          </div>
-          <div class="card-actions-row">
-            <button class="btn btn-secondary btn-edit" data-id="${app.id}">✏️ এডিট</button>
-            <button class="btn btn-danger btn-delete" data-id="${app.id}">🗑️ মুছুন</button>
-          </div>
-        `;
-
-        card.querySelector('.btn-edit').addEventListener('click', () => openEditModal(app.id));
-        card.querySelector('.btn-delete').addEventListener('click', () => deleteAppHandler(app.id, primaryTitle));
-
-        adminAppsList.appendChild(card);
-      });
+      bnApps.forEach(a => bnContainer.appendChild(createAppCard(a, 'bn')));
+      enApps.forEach(a => enContainer.appendChild(createAppCard(a, 'en')));
     }
 
-    adminSearchInput.addEventListener('input', () => {
-      const q = adminSearchInput.value.trim().toLowerCase();
-      const filtered = appsData.filter(a => 
-        (a.appName || '').toLowerCase().includes(q) ||
-        (a.appName_bn || '').toLowerCase().includes(q) ||
-        (a.appName_en || '').toLowerCase().includes(q) ||
-        (a.category || '').toLowerCase().includes(q) ||
-        (a.category_bn || '').toLowerCase().includes(q) ||
-        (a.category_en || '').toLowerCase().includes(q)
-      );
-      renderApps(filtered);
-    });
+    function createAppCard(app, lang) {
+      const card = document.createElement('div');
+      card.className = 'admin-app-card';
+      const title = lang === 'bn' ? (app.appName_bn || app.appName) : app.appName_en;
+      const cat = lang === 'bn' ? (app.category_bn || app.category || 'টুলস') : (app.category_en || 'Tools');
+      const desc = lang === 'bn' ? (app.description_bn || app.description || '') : (app.description_en || '');
 
-    formLogoUrl.addEventListener('input', () => {
-      formLogoPreview.src = formLogoUrl.value.trim() || 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
-    });
-    formLogoPreview.onerror = () => { formLogoPreview.src = 'https://placehold.co/64x64/1a2744/ffffff?text=Error'; };
+      card.innerHTML = `
+        <div class="app-header-area">
+          <img class="app-icon-img" src="${app.logoUrl || 'https://placehold.co/128x128/1a2744/ffffff?text=App'}" alt="Logo">
+          <div class="app-meta-area">
+            <div class="app-name-text">${title}</div>
+            <span class="badge-pill badge-cat">${cat}</span>
+          </div>
+        </div>
+        <div class="app-bilingual-preview">${desc || '<em>কোনো বিবরণ দেওয়া হয়নি।</em>'}</div>
+        <div class="card-actions-row">
+          <button class="btn btn-secondary" onclick="openEditModal('${app.id}')">✏️ এডিট</button>
+          <button class="btn btn-danger" onclick="moveToTrash('app', '${app.id}', '${title}')">🗑️ ট্র্যাশ</button>
+        </div>
+      `;
+      return card;
+    }
 
-    btnOpenAddModal.addEventListener('click', () => {
-      appForm.reset();
-      formDocId.value = '';
-      modalTitle.textContent = "নতুন অ্যাপ যোগ করুন";
-      formLogoPreview.src = 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
-      switchFormTab('bn');
-      appModal.classList.remove('hidden');
-    });
+    // ADD / EDIT APP MODAL LOGIC
+    window.openAddModal = function(lang = 'bn') {
+      document.getElementById('app-form').reset();
+      document.getElementById('form-doc-id').value = '';
+      document.getElementById('modal-title').textContent = lang === 'bn' ? "নতুন বাংলা অ্যাপ যোগ করুন" : "Add New English App";
+      document.getElementById('form-logo-preview').src = 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
+      switchFormTab(lang);
+      document.getElementById('app-modal').classList.remove('hidden');
+    };
 
-    function openEditModal(id) {
-      const target = appsData.find(a => a.id === id);
+    window.openEditModal = function(id) {
+      const target = allApps.find(a => a.id === id);
       if (!target) return;
+      document.getElementById('form-doc-id').value = target.id;
+      document.getElementById('form-logo-url').value = target.logoUrl || '';
+      document.getElementById('form-apk-url').value = target.apkDownloadUrl || '';
+      document.getElementById('form-name-bn').value = target.appName_bn || target.appName || '';
+      document.getElementById('form-cat-bn').value = target.category_bn || target.category || '';
+      document.getElementById('form-desc-bn').value = target.description_bn || target.description || '';
+      document.getElementById('form-name-en').value = target.appName_en || '';
+      document.getElementById('form-cat-en').value = target.category_en || '';
+      document.getElementById('form-desc-en').value = target.description_en || '';
+      document.getElementById('form-logo-preview').src = target.logoUrl || 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
+      document.getElementById('modal-title').textContent = "অ্যাপ সম্পাদনা করুন";
+      switchFormTab(target.appName_bn ? 'bn' : 'en');
+      document.getElementById('app-modal').classList.remove('hidden');
+    };
 
-      formDocId.value = target.id;
-      formLogoUrl.value = target.logoUrl || '';
-      formApkUrl.value = target.apkDownloadUrl || '';
+    window.closeAppModal = function() {
+      document.getElementById('app-modal').classList.add('hidden');
+    };
 
-      formNameBn.value = target.appName_bn || (!target.appName_en ? (target.appName || '') : '');
-      formCatBn.value = target.category_bn || (!target.category_en ? (target.category || '') : '');
-      formDescBn.value = target.description_bn || (!target.description_en ? (target.description || '') : '');
+    document.getElementById('form-logo-url').addEventListener('input', (e) => {
+      document.getElementById('form-logo-preview').src = e.target.value.trim() || 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
+    });
 
-      formNameEn.value = target.appName_en || '';
-      formCatEn.value = target.category_en || '';
-      formDescEn.value = target.description_en || '';
-
-      formLogoPreview.src = target.logoUrl || 'https://placehold.co/64x64/1a2744/ffffff?text=Icon';
-      modalTitle.textContent = "অ্যাপ সম্পাদনা করুন";
-      
-      if (!formNameBn.value && formNameEn.value) {
-        switchFormTab('en');
-      } else {
-        switchFormTab('bn');
-      }
-      
-      appModal.classList.remove('hidden');
-    }
-
-    function closeModal() {
-      appModal.classList.add('hidden');
-      appForm.reset();
-    }
-    btnCloseModal.addEventListener('click', closeModal);
-    btnCancelModal.addEventListener('click', closeModal);
-
-    appForm.addEventListener('submit', async (e) => {
+    document.getElementById('app-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const docId = formDocId.value;
-
-      const bnName = formNameBn.value.trim();
-      const enName = formNameEn.value.trim();
-      const bnCat = formCatBn.value.trim();
-      const enCat = formCatEn.value.trim();
-      const bnDesc = formDescBn.value.trim();
-      const enDesc = formDescEn.value.trim();
-      const logo = formLogoUrl.value.trim();
-      const apk = formApkUrl.value.trim();
+      const docId = document.getElementById('form-doc-id').value;
+      const bnName = document.getElementById('form-name-bn').value.trim();
+      const enName = document.getElementById('form-name-en').value.trim();
+      const bnCat = document.getElementById('form-cat-bn').value.trim();
+      const enCat = document.getElementById('form-cat-en').value.trim();
+      const bnDesc = document.getElementById('form-desc-bn').value.trim();
+      const enDesc = document.getElementById('form-desc-en').value.trim();
+      const logo = document.getElementById('form-logo-url').value.trim();
+      const apk = document.getElementById('form-apk-url').value.trim();
 
       if (!bnName && !enName) {
-        alert("অনুগ্রহ করে অন্তত একটি ভাষায় (বাংলা অথবা English) অ্যাপের নাম লিখুন।");
+        alert("অনুগ্রহ করে অন্তত একটি ভাষায় অ্যাপের নাম লিখুন।");
         return;
       }
 
@@ -927,60 +963,237 @@
         description: bnDesc || enDesc || '',
         logoUrl: logo,
         apkDownloadUrl: apk,
-
         appName_bn: bnName,
         appName_en: enName,
         category_bn: bnCat,
         category_en: enCat,
         description_bn: bnDesc,
         description_en: enDesc,
-
+        status: 'active',
         updatedAt: serverTimestamp()
       };
 
-      btnSaveApp.disabled = true;
-      btnSaveApp.textContent = "সংরক্ষণ হচ্ছে...";
-
       try {
         if (docId) {
-          const target = appsData.find(a => a.id === docId);
-          if (target && target.createdAt) {
-            payload.createdAt = target.createdAt;
-          }
+          const target = allApps.find(a => a.id === docId);
+          if (target && target.createdAt) payload.createdAt = target.createdAt;
           await updateDoc(doc(db, "apps", docId), payload);
-          showAlert(dashAlert, "অ্যাপ সফলভাবে আপডেট করা হয়েছে!", false);
+          showAlert(dashAlert, "অ্যাপ সফলভাবে আপডেট করা হয়েছে!", false);
         } else {
           payload.createdAt = serverTimestamp();
           await addDoc(collection(db, "apps"), payload);
-          showAlert(dashAlert, "নতুন অ্যাপ সফলভাবে যুক্ত হয়েছে!", false);
+          showAlert(dashAlert, "নতুন অ্যাপ সফলভাবে যুক্ত হয়েছে!", false);
         }
-        closeModal();
+        closeAppModal();
         await fetchApps();
+        updateDashboardCounts();
       } catch (err) {
-        showAlert(dashAlert, "সংরক্ষণ ব্যর্থ হয়েছে: " + err.message, true);
-      } finally {
-        btnSaveApp.disabled = false;
-        btnSaveApp.textContent = "সংরক্ষণ করুন";
+        showAlert(dashAlert, "সংরক্ষণ ব্যর্থ: " + err.message, true);
       }
     });
 
-    async function deleteAppHandler(id, appName) {
-      if (!window.confirm(`আপনি কি নিশ্চিত যে "${appName}" অ্যাপটি ডিলিট করতে চান?`)) return;
+    // 2. SITE GLOBAL SETTINGS CONTROLLER
+    async function fetchSiteSettings() {
       try {
-        await deleteDoc(doc(db, "apps", id));
-        showAlert(dashAlert, "অ্যাপটি সফলভাবে মুছে ফেলা হয়েছে!", false);
-        await fetchApps();
+        const sSnap = await getDoc(doc(db, "site_settings", "config"));
+        if (sSnap.exists()) {
+          const data = sSnap.data();
+          document.getElementById('set-logo-url').value = data.logoUrl || '';
+          document.getElementById('set-banner-notice').value = data.bannerNotice || '';
+          document.getElementById('set-footer-notice').value = data.footerNotice || '';
+        }
+      } catch (e) {}
+    }
+
+    document.getElementById('site-settings-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        logoUrl: document.getElementById('set-logo-url').value.trim(),
+        bannerNotice: document.getElementById('set-banner-notice').value.trim(),
+        footerNotice: document.getElementById('set-footer-notice').value.trim(),
+        updatedAt: serverTimestamp()
+      };
+      try {
+        await setDoc(doc(db, "site_settings", "config"), payload, { merge: true });
+        showAlert(dashAlert, "ব্লগার ওয়েবসাইটের সেটিংস লাইভ আপডেট হয়েছে!", false);
       } catch (err) {
-        showAlert(dashAlert, "ডিলিট করতে সমস্যা হয়েছে: " + err.message, true);
+        showAlert(dashAlert, "আপডেট ব্যর্থ: " + err.message, true);
       }
+    });
+
+    // 3. NOTIFICATION HUB
+    async function fetchNotifications() {
+      try {
+        const snap = await getDocs(query(collection(db, "notifications"), orderBy("createdAt", "desc")));
+        allNotifs = [];
+        snap.forEach(d => allNotifs.push({ id: d.id, ...d.data() }));
+        renderNotifications();
+      } catch (e) {
+        const snap = await getDocs(collection(db, "notifications"));
+        allNotifs = [];
+        snap.forEach(d => allNotifs.push({ id: d.id, ...d.data() }));
+        renderNotifications();
+      }
+    }
+
+    function renderNotifications() {
+      const tbody = document.getElementById('notifs-table-body');
+      tbody.innerHTML = '';
+      const activeNotifs = allNotifs.filter(n => n.status !== 'trash');
+      if (activeNotifs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">কোনো সক্রিয় নোটিফিকেশন নেই।</td></tr>`;
+        return;
+      }
+      activeNotifs.forEach(n => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${n.title}</strong></td>
+          <td>${n.body}</td>
+          <td>${n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
+          <td><button class="btn btn-danger" style="min-height:32px; padding:4px 10px;" onclick="moveToTrash('notif', '${n.id}', '${n.title}')">🗑️ ট্র্যাশ</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.openNotifModal = function() {
+      document.getElementById('notif-form').reset();
+      document.getElementById('notif-modal').classList.remove('hidden');
+    };
+    window.closeNotifModal = function() {
+      document.getElementById('notif-modal').classList.add('hidden');
+    };
+
+    document.getElementById('notif-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById('notif-title').value.trim(),
+        body: document.getElementById('notif-body').value.trim(),
+        status: 'active',
+        createdAt: serverTimestamp()
+      };
+      try {
+        await addDoc(collection(db, "notifications"), payload);
+        showAlert(dashAlert, "নতুন নোটিফিকেশন সফলভাবে ব্রডকাস্ট হয়েছে!", false);
+        closeNotifModal();
+        await fetchNotifications();
+        updateDashboardCounts();
+      } catch (err) {
+        showAlert(dashAlert, "ত্রুটি: " + err.message, true);
+      }
+    });
+
+    // 4. USERS DIRECTORY
+    async function fetchUsers() {
+      try {
+        const snap = await getDocs(collection(db, "users"));
+        allUsers = [];
+        snap.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
+        renderUsersTable();
+      } catch (e) {}
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '';
+      const activeUsers = allUsers.filter(u => u.status !== 'trash');
+      if (activeUsers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">এখনো কোনো পাবলিক ইউজার অ্যাকাউন্ট খোলেননি।</td></tr>`;
+        return;
+      }
+      activeUsers.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${u.username || 'User'}</td>
+          <td>${u.email}</td>
+          <td>${u.createdAt ? new Date(u.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
+          <td><span class="badge-pill ${u.status === 'blocked' ? 'btn-danger' : 'btn-success'}">${u.status || 'Active'}</span></td>
+          <td>
+            <button class="btn btn-warning" style="min-height:30px; padding:3px 8px;" onclick="toggleBlockUser('${u.id}', '${u.status}')">${u.status === 'blocked' ? 'আনব্লক' : 'ব্লক'}</button>
+            <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('user', '${u.id}', '${u.username || u.email}')">মুছুন</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.toggleBlockUser = async function(uid, currentStatus) {
+      const newStatus = currentStatus === 'blocked' ? 'active' : 'blocked';
+      await updateDoc(doc(db, "users", uid), { status: newStatus });
+      await fetchUsers();
+    };
+
+    // 5. UNIVERSAL RECYCLE BIN (SOFT DELETE & RESTORE)
+    window.moveToTrash = async function(type, id, name) {
+      if (!confirm(`আপনি কি "${name}" আইটেমটি রিসাইকেল বিনে সরাতে চান?`)) return;
+      try {
+        if (type === 'app') await updateDoc(doc(db, "apps", id), { status: 'trash', trashedAt: serverTimestamp() });
+        if (type === 'notif') await updateDoc(doc(db, "notifications", id), { status: 'trash', trashedAt: serverTimestamp() });
+        if (type === 'user') await updateDoc(doc(db, "users", id), { status: 'trash', trashedAt: serverTimestamp() });
+        showAlert(dashAlert, `"${name}" সফলভাবে রিসাইকেল বিনে সরানো হয়েছে!`, false);
+        await loadAllDashboardData();
+      } catch (err) {
+        showAlert(dashAlert, "ব্যর্থ: " + err.message, true);
+      }
+    };
+
+    function renderTrashTable() {
+      const tbody = document.getElementById('trash-table-body');
+      tbody.innerHTML = '';
+      const trashApps = allApps.filter(a => a.status === 'trash').map(a => ({ type: 'App', id: a.id, name: a.appName_bn || a.appName_en || a.appName, target: 'apps' }));
+      const trashNotifs = allNotifs.filter(n => n.status === 'trash').map(n => ({ type: 'Notice', id: n.id, name: n.title, target: 'notifications' }));
+      const trashUsers = allUsers.filter(u => u.status === 'trash').map(u => ({ type: 'User', id: u.id, name: u.username || u.email, target: 'users' }));
+      
+      const allTrash = [...trashApps, ...trashNotifs, ...trashUsers];
+      document.getElementById('stat-trash').textContent = allTrash.length;
+
+      if (allTrash.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">রিসাইকেল বিন সম্পূর্ণ খালি।</td></tr>`;
+        return;
+      }
+
+      allTrash.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="badge-pill badge-cat">${item.type}</span></td>
+          <td><strong>${item.name}</strong></td>
+          <td>সম্প্রতি ডিলিটকৃত</td>
+          <td>
+            <button class="btn btn-success" style="min-height:30px; padding:3px 8px;" onclick="restoreTrash('${item.target}', '${item.id}')">🔄 রিস্টোর</button>
+            <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="permanentDelete('${item.target}', '${item.id}')">🗑️ স্থায়ী মুছুন</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.restoreTrash = async function(targetCollection, id) {
+      await updateDoc(doc(db, targetCollection, id), { status: 'active' });
+      showAlert(dashAlert, "আইটেমটি সফলভাবে আগের স্থানে রিস্টোর করা হয়েছে!", false);
+      await loadAllDashboardData();
+    };
+
+    window.permanentDelete = async function(targetCollection, id) {
+      if (!confirm("সতর্কতা: এই আইটেমটি ক্লাউড ডেটাবেজ থেকে চিরতরে মুছে যাবে। আপনি কি নিশ্চিত?")) return;
+      await deleteDoc(doc(db, targetCollection, id));
+      showAlert(dashAlert, "আইটেমটি স্থায়ীভাবে ডিলিট করা হয়েছে!", false);
+      await loadAllDashboardData();
+    };
+
+    function updateDashboardCounts() {
+      const activeApps = allApps.filter(a => a.status !== 'trash');
+      document.getElementById('stat-bn-apps').textContent = activeApps.filter(a => (a.appName_bn && a.appName_bn.trim() !== '') || (!a.appName_en && a.appName)).length;
+      document.getElementById('stat-en-apps').textContent = activeApps.filter(a => a.appName_en && a.appName_en.trim() !== '').length;
+      document.getElementById('stat-users').textContent = allUsers.filter(u => u.status !== 'trash').length;
+      document.getElementById('stat-notifs').textContent = allNotifs.filter(n => n.status !== 'trash').length;
     }
   </script>
 
-  <!-- Service Worker Registration for PWA/APK -->
+  <!-- Service Worker for PWA/APK -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch((err) => console.log('SW Reg Fail:', err));
+        navigator.serviceWorker.register('sw.js').catch(() => {});
       });
     }
   </script>
