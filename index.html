@@ -918,11 +918,13 @@
         allApps = [];
         snap.forEach(d => allApps.push({ id: d.id, ...d.data() }));
         renderAppLists();
+        renderReviewsTable(); // অ্যাপ লোড হওয়ার পর রিভিউয়ের নামগুলো রিফ্রেশ করবে
       } catch (err) {
         const snap = await getDocs(collection(db, "apps"));
         allApps = [];
         snap.forEach(d => allApps.push({ id: d.id, ...d.data() }));
         renderAppLists();
+        renderReviewsTable(); // অ্যাপ লোড হওয়ার পর রিভিউয়ের নামগুলো রিফ্রেশ করবে
       }
     }
 
@@ -1054,8 +1056,8 @@
 
     // Helper: Identify whether a record is a general website feedback
     function isWebsiteFeedbackRecord(r) {
-      const name = (r.appName || '').toLowerCase().trim();
-      const appId = (r.appId || '').toLowerCase().trim();
+      const name = (r.appName || r.app_name || '').toLowerCase().trim();
+      const appId = (r.appId || r.app_id || '').toLowerCase().trim();
       const type = (r.type || '').toLowerCase().trim();
       return name === 'website_general' || 
              appId === 'website_general' || 
@@ -1063,6 +1065,36 @@
              type === 'website' || 
              name.includes('website_general') || 
              r.isWebsiteFeedback === true;
+    }
+
+    // Smart Resolver: Finds the actual app name and logo even if only appId is present
+    function getAppDetails(r) {
+      const directName = r.appName || r.app_name || r.appTitle || r.appName_bn || r.appName_en || r.title || r.name;
+      const targetId = (r.appId || r.app_id || r.postId || r.targetId || '').trim();
+      
+      let matchedApp = null;
+      if (targetId && allApps.length > 0) {
+        matchedApp = allApps.find(a => 
+          a.id === targetId || 
+          (a.appId && a.appId === targetId) || 
+          (a.postId && a.postId === targetId)
+        );
+      }
+
+      if (!matchedApp && directName && allApps.length > 0) {
+        matchedApp = allApps.find(a => 
+          (a.appName_bn && a.appName_bn.trim().toLowerCase() === directName.trim().toLowerCase()) ||
+          (a.appName_en && a.appName_en.trim().toLowerCase() === directName.trim().toLowerCase()) ||
+          (a.appName && a.appName.trim().toLowerCase() === directName.trim().toLowerCase())
+        );
+      }
+
+      const finalName = matchedApp 
+        ? (matchedApp.appName_bn || matchedApp.appName || matchedApp.appName_en) 
+        : (directName && directName.toLowerCase() !== 'app review' ? directName : 'নির্দিষ্ট অ্যাপ');
+      const logoUrl = matchedApp ? matchedApp.logoUrl : (r.appLogo || r.logoUrl || null);
+
+      return { name: finalName, logoUrl };
     }
 
     // 2. REVIEWS & FEEDBACK MANAGEMENT
@@ -1100,14 +1132,24 @@
         appReviewsList.forEach(r => {
           const tr = document.createElement('tr');
           const stars = '★'.repeat(r.rating || 5);
+          const appInfo = getAppDetails(r);
+          const iconHtml = appInfo.logoUrl 
+            ? `<img src="${appInfo.logoUrl}" style="width:24px; height:24px; border-radius:6px; object-fit:cover; border:1px solid var(--border-color); flex-shrink:0;">` 
+            : `<span style="font-size:18px;">📱</span>`;
+
           tr.innerHTML = `
-            <td><strong>${r.appName || 'App Review'}</strong></td>
+            <td>
+              <div style="display:flex; align-items:center; gap:8px;">
+                ${iconHtml}
+                <strong>${appInfo.name}</strong>
+              </div>
+            </td>
             <td>${r.userName || 'Anonymous'}<br><span style="font-size:11px; color:var(--text-muted);">${r.userEmail || ''}</span></td>
             <td style="color:var(--star-gold); font-size:16px;">${stars}</td>
             <td>${r.comment || '<em>(শুধু রেটিং দিয়েছেন)</em>'}</td>
             <td>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'আজ'}</td>
             <td>
-              <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Review by ${r.userName || 'User'} on ${r.appName || 'App'}')">🗑️ ট্র্যাশ</button>
+              <button class="btn btn-danger" style="min-height:30px; padding:3px 8px;" onclick="moveToTrash('review', '${r.id}', 'Review by ${r.userName || 'User'} on ${appInfo.name}')">🗑️ ট্র্যাশ</button>
             </td>
           `;
           appTbody.appendChild(tr);
@@ -1282,10 +1324,11 @@
       const trashApps = allApps.filter(a => a.status === 'trash').map(a => ({ type: 'App', id: a.id, name: a.appName_bn || a.appName_en || a.appName, target: 'apps' }));
       const trashReviews = allReviews.filter(r => r.status === 'trash').map(r => {
         const isSite = isWebsiteFeedbackRecord(r);
+        const appInfo = isSite ? null : getAppDetails(r);
         return {
           type: isSite ? 'Website Feedback' : 'App Review',
           id: r.id,
-          name: isSite ? `Feedback by ${r.userName || 'Visitor'}` : `Review on ${r.appName || 'App'}`,
+          name: isSite ? `Feedback by ${r.userName || 'Visitor'}` : `Review on ${appInfo.name}`,
           target: 'reviews'
         };
       });
